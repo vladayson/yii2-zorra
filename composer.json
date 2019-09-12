@@ -1,0 +1,21 @@
+{
+    "name": "vladayson/yii2-zorra",
+    "description": "Zorra Telecom Integration",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"," zorra"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "vladayson",
+            "email": "vladaysin@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "vladayson\\Zorra\\": ""
+        }
+    }
+}
