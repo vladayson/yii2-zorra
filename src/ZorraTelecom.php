@@ -2,6 +2,7 @@
 
 namespace vladayson\zorra;
 
+use Exception;
 use yii\base\Component;
 use yii\helpers\Json;
 use yii\httpclient\Client;
@@ -78,25 +79,25 @@ class ZorraTelecom extends Component
     {
         try {
             $this->login();
-            $result = $this->client->post('v2/mailing/single/send', [
+            $result = $this->client->post('v2/mailing/single/send', Json::encode([
                 'type' => 'sms',
                 'sender' => $sender,
                 'body' => $text,
                 'recipient' => $number,
-            ])->addHeaders([
+            ]))->addHeaders([
                 'Authorization' => 'Bearer ' . $this->token,
                 'Accept'        => 'application/json',
-            ])
-                                   ->send();
+                'Content-type'  => 'application/json',
+            ])->send();
 
             if ($result->statusCode != 200) {
-                return false;
+                throw new Exception("Error sms sending: " . var_export($result, true));
             }
             $data = Json::decode($result->getContent());
 
             return $data['success'] == true;
-        } catch (\Exception $e) {
-            return false;
+        } catch (Exception $e) {
+            throw $e;
         }
     }
 }
